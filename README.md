@@ -49,7 +49,17 @@ To fix the corrupted binary you have to first `Clean the Extension data` and mak
 
 `adb shell run-as com.<company>.<app> rm -rf debugcito` and `adb shell rm -rf /data/local/tmp/lldb-server-arm64` should take care of it.
 
+### lldb python crash when loading scripts
+If you encounter a problem during your experiments where the lldb crashes after loading the formatter scripts `UnrealEngine/Engine/Extras/LLDBDataFormatters/UEDataFormatters_2ByteChars.py`, or running python in general `lldb script`, try settings the `PYTHONPATH` env variable to `~/.oculus_debugger_runtime/lldb/2021.02.10/lldb/PythonLibs`. If this does not help your lldb is probably corrupted and you should consider redownloading it clean.
+
+Note that the VSCode extension uses the lldb-vscode.exe and sets the `PYTHONPATH` at start-up. This should not be the core of your issues but might help you investigate the setup further.
+
 ### Logs are your only hope
 The oculus debugger extension and the underlyin `debugcito` is closed source and I wasn't able to find anything useful even from disassembling it. So logs are your only hope and it is a real shame that many of the return values from the device are discarded in the process. 
 
 The best thing I can recommend is to try to replay the same setup the `debugcito` does under the hood yourself from the steps you see in the logs and find fishy. Fortunatelly it does show the full ADB commands and file paths.
+
+### attachCommands failed to attach to process
+This is a common error message that means that something went wrong during the initial setup of lldb's connection, that you can replay from `%TMP%/lldbinit`, and it has probably even crashed. This failure might be completelly silent and without a trace of an error in the logs.
+
+If you are running Oculus Unreal 5.+ it's worth checking the generated .vscode project files for bad path formats. Something happened when the team migrated the fork over to UE5 and now the projects contain more escapes in the debugger settings than neccessarry. The `lldb` does not like escaped paths so if you see `\\\"` in your `launch.json` project file you are in trouble and this will silently fail the `lldb` process.
