@@ -10,7 +10,32 @@
 | __AGDE__                              | - | - | v22.2.69+ | v23.1.82+ |
 | __SDK API Level__                     | Latest | - | - | - |
 | __NDK API Level__                     | android-21 | - | - | - |
+| __Android Minimum SDK Version__       | 29 | - | - | - |
 | __Android Target SDK Version__        | 29 | - | - | - |
+| __Enable FullScreen Immersive on...__ | true | - | - | - |
+| __Oculus Plugin Name__                | OculusVR | OculusVR | MetaXR | MetaXR |
+| __Support OpenGL ES3.2__              | true | false | false | false |
+| __Support Vulkan__                    | false | true | true | true |
+
+## Random Notes
+- Presence of MetaXR plugin in the `plugin` folder during compilation with Oculus fork of *Unreal Engine* causes issues and crashes.
+- __MSAA__ is the only way. Preferably 4x.
+- Always disable __Mobile HDR__.
+- __Mobile Multi-View__ works only in certain versions (looks like in 5.1.1 and above it works well).
+- For debugging always *Package data inside APK*.
+- For *UE 5.+* disable to __Android File Server__ Plugin.
+- __OpenXR__ is the only API supported further.
+- __PhysX__ is getting slowly deprecated.
+- __Nanite__ is not yet supported on *Oculus Quest* devices.
+- Performance regression from UE4 to UE5 is possible.
+- Ensure to enable __AndroidDeviceProfileSelector__ plugin as it might hang the apps on start otherwise (UE5).
+- CPU __Occlusion Culling__ is not supported by UE5 and the new GPU system has couple of downsides.
+    - There is a one frame delay.
+    - More work for the GPU.
+- Use *Android Studio* to solve __gradle__ errors. You can re-package the project without having to build and cook everything and even clean and package again.
+
+## Debugging with AGDE
+This is still a mistery to me. I was not able to make it work just yet.
 
 ## SetupAndroid.bat troubleshooting
 The script will fail to find the __sdkmanager.bat__ for certain versions of *Unreal Engine*. If you find yourself in such situation either install older version of the __Android SDK Platform Tools__ or just edit the script and direct the towards the right path of your __sdkmanager.bat__. I would recommend the latter.
