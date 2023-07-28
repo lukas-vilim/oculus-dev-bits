@@ -1,23 +1,16 @@
 # Oculus
 ## Current Android SDK Project setup
-__Android Studio__ : Version 4.0 (from May 28, 2020)
-
-__Android SDK Version__ : *SetupAndroid.bat*
-
-__Android SDK Platform Tools__ : Latest
-
-__Andorid Command Line Tools__ : 8.0 (9.0 for UE 5.2+)
-
-__NDK Version__ : *UE 4.25+* r21b; *UE 5.0* r21e; *UE 5.1+* r25b
-
-__AGDE__ : *UE 5.1* v22.2.69+; *UE 5.2* v23.1.82+; (JDK 17)
-
-
-__SDK API Level__ : Latest
-
-__NDK API Level__ : android-21
-
-__Android Target SDK Version__ : 29
+| Name                                  | UE 4.25+          | UE 5.0+       | UE 5.1+       | UE 5.2+           |
+| --------------------------------------|-------------------|---------------|---------------|-------------------|
+| __Android Studio__ | Version 4.0 (from May 28, 2020) | | | |
+| __Android SDK Version__ | *SetupAndroid.bat* | | | |
+| __Android SDK Platform Tools__ | Latest | | | |
+| __Andorid Command Line Tools__ : 8.0 | 8.0 | 8.0 | 9.0 for UE 5.2+ |
+| __NDK Version__ | r21b | r21e | r25b | r25b |
+| __AGDE__ | - | - | *UE 5.1* v22.2.69+ | *UE 5.2* v23.1.82+ |
+| __SDK API Level__ | Latest | | | |
+| __NDK API Level__ | android-21 | | | |
+| __Android Target SDK Version__ | 29 | | | |
 
 ## SetupAndroid.bat troubleshooting
 The script will fail to find the __sdkmanager.bat__ for certain versions of *Unreal Engine*. If you find yourself in such situation either install older version of the __Android SDK Platform Tools__ or just edit the script and direct the towards the right path of your __sdkmanager.bat__. I would recommend the latter.
@@ -37,11 +30,12 @@ __UnrealBuildTool__ from the Oculus fork of *Unreal Engine* is able to produce t
 To generate the workspace you have to either switch your code editor of choice to *Visual Studio Code* in the *Unreal Engine Editor* or call the __UnrealBuildTool__ or one of the helper scripts with __CLI__ parameters `\UnrealEngine\Engine\Build\BatchFiles\GenerateProjectFiles.bat <absolute_path_to_your_uproject_file> -game -vscode`. This will produce the workspace in your projects root directory.
 
 After opening the workspace you should find a couple of additional options in the __Run and Debug__ section:
-- __ <ProjectName> Oculus (Debug) Launch __
-- __ <ProjectName> Oculus (DebugGame) Launch __
-- __ <ProjectName> Oculus (Development) Launch __
-- __ <ProjectName> Oculus (Development) Attach __
-- __ <ProjectName> Oculus (Shipping) Launch __
+- __<ProjectName> Oculus (Debug) Launch__
+- __<ProjectName> Oculus (DebugGame) Launch__
+
+- __<ProjectName> Oculus (Development) Launch__
+- __<ProjectName> Oculus (Development) Attach__
+- __<ProjectName> Oculus (Shipping) Launch__
 
 Before running the those you have to first fully __build and cook__ the project for *Android* as all of the skip the _cooking_ step by default. If you don't see any of the options above in your workspace make sure you are running __UBT__ from the Oculus fork of the *Unreal Engine* and that it does not produce any errors during the process.
 
