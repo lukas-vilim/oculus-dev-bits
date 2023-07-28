@@ -59,7 +59,31 @@ The oculus debugger extension and the underlyin `debugcito` is closed source and
 
 The best thing I can recommend is to try to replay the same setup the `debugcito` does under the hood yourself from the steps you see in the logs and find fishy. Fortunatelly it does show the full ADB commands and file paths.
 
-### attachCommands failed to attach to process
+### "attachCommands failed to attach to process" Error
 This is a common error message that means that something went wrong during the initial setup of lldb's connection, that you can replay from `%TMP%/lldbinit`, and it has probably even crashed. This failure might be completelly silent and without a trace of an error in the logs.
 
-If you are running Oculus Unreal 5.+ it's worth checking the generated .vscode project files for bad path formats. Something happened when the team migrated the fork over to UE5 and now the projects contain more escapes in the debugger settings than neccessarry. The `lldb` does not like escaped paths so if you see `\\\"` in your `launch.json` project file you are in trouble and this will silently fail the `lldb` process.
+If you are running Oculus fork of Unreal Engine 5 it's worth checking the generated .vscode project files for bad path formats. Something happened when the team migrated the fork over to UE5 and now the projects contain more escapes in the debugger settings than neccessarry. Last time I checked the issue was present for all the tag `oculus-5.0.0-release-1.71.0-v39.0` and __above__. The `lldb` does not like escaped paths so if you see `\\\"` in your `launch.json` project file you are in trouble and this will silently fail the `lldb` process.
+
+To fix this you'll have to edit the engine sources at `UnrealEngine/Engine/Source/Programs/UnrealBuildTool/ProjectFiles/VisualStudioCode/VSCodeProjectFileGenerator.cs:WriteNativeLaunchConfigAndroidOculus(...)` and remove the extra escapes in this section:
+
+```
+...
+    OutFile.BeginObject("lldbConfig");
+    {
+        OutFile.BeginArray("librarySearchPaths");
+        OutFile.AddUnnamedField("\\\"" + SymbolPathArm64.ToNormalizedPath() + "\\\""); // << REMOVE HERE
+        OutFile.EndArray();
+
+        OutFile.BeginArray("lldbPreTargetCreateCommands");
+        FileReference DataFormatters = FileReference.Combine(ProjectRoot, "Engine", "Extras", "LLDBDataFormatters", "UEDataFormatters_2ByteChars.py");
+        OutFile.AddUnnamedField("command script import \\\"" + DataFormatters.FullName.Replace("\\", "/") + "\\\""); // << REMOVE HERE
+        OutFile.EndArray();
+
+        OutFile.BeginArray("lldbPostTargetCreateCommands");
+        //on Oculus devices, we use SIGILL for input redirection, so the debugger shouldn't catch it.
+        OutFile.AddUnnamedField("process handle --pass true --stop false --notify true SIGILL");
+        OutFile.EndArray();
+    }
+...
+```
+> *I'm not sharing exact line numbers or patch since the sources might change and tracking down the exact spot would be more difficult.*
