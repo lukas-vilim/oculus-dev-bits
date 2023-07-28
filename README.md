@@ -1,11 +1,43 @@
+# Oculus
+## Current Android SDK Project setup
+__Android Studio__ : Version 4.0 (from May 28, 2020)
+__Android SDK Version__ : *SetupAndroid.bat*
+__Android SDK Platform Tools__ : Latest
+__Andorid Command Line Tools__ : 8.0 (9.0 for UE 5.2+)
+__NDK Version__ : *UE 4.25+* r21b; *UE 5.0* r21e; *UE 5.1+* r25b
+__AGDE__ : *UE 5.1* v22.2.69+; *UE 5.2* v23.1.82+; (JDK 17)
+
+__SDK API Level__ : Latest
+__NDK API Level__ : android-21
+__Android Target SDK Version__ : 29
+
+## SetupAndroid.bat troubleshooting
+The script will fail to find the __sdkmanager.bat__ for certain versions of *Unreal Engine*. If you find yourself in such situation either install older version of the __Android SDK Platform Tools__ or just edit the script and direct the towards the right path of your __sdkmanager.bat__. I would recommend the latter.
+
 # OculusDebugger Extension
-As far as I understand what is hidden behind the courtains of the VS code extension it is a wrapper around lldb 12.0 widh deployment scripts for Standalone devices. There is very little to be found on the internet about how to setup and troubleshoot the system and the sources are not available. In my desperation I even decompiled the debugcito.
+As far as I understand what is hidden behind the courtains of the *Visual Studio Code* extension is a wrapper around *lldb* 12.0 with deployment scripts for Standalone devices *(Quest 1, Quest 2, Quest Pro)*. There is very little to be found on the internet about how to setup and troubleshoot the system and the sources are not available. In my desperation I even decompiled the __debugcito__.
 
 Anyway, there are a couple of pieces to the whole puzzle.
-- debugcito
+- __debugcito__
     - Vanilla lldb 12.0 (this is where the lldb-server for your arm64 comes from)
     - Android SDK Tools (in case you don't have platform-tools in your path already)
-- fb-lldb 12.0 (supposedly modded version built specifically for meta standalone devices)
+- __fb-lldb 12.0__ (supposedly modded version built specifically for meta standalone devices)
+
+## Unreal Engine Integration
+__UnrealBuildTool__ from the Oculus fork of *Unreal Engine* is able to produce the *Visual Studio Code* workspace that contains additional targets and *tasks* for the *OculusDebugger Extension*.
+
+To generate the workspace you have to either switch your code editor of choice to *Visual Studio Code* in the *Unreal Engine Editor* or call the __UnrealBuildTool__ or one of the helper scripts with __CLI__ parameters `\UnrealEngine\Engine\Build\BatchFiles\GenerateProjectFiles.bat <absolute_path_to_your_uproject_file> -game -vscode`. This will produce the workspace in your projects root directory.
+
+After opening the workspace you should find a couple of additional options in the __Run and Debug__ section:
+- __ <ProjectName> Oculus (Debug) Launch __
+- __ <ProjectName> Oculus (DebugGame) Launch __
+- __ <ProjectName> Oculus (Development) Launch __
+- __ <ProjectName> Oculus (Development) Attach __
+- __ <ProjectName> Oculus (Shipping) Launch __
+
+Before running the those you have to first fully __build and cook__ the project for *Android* as all of the skip the _cooking_ step by default. If you don't see any of the options above in your workspace make sure you are running __UBT__ from the Oculus fork of the *Unreal Engine* and that it does not produce any errors during the process.
+
+> *Tip: You can Build and Cook right from the workspace without running the editor (CTRL+SHIFT+P -> Run Task -> <ProjectName> Android Development Deploy/Build/Cook/Rebuild/Clean*
 
 ## The debugcito process
 This is how the process runs when your device is clean and you are running the debugger for the first time.
