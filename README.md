@@ -1,14 +1,22 @@
 # Oculus
 ## Current Android SDK Project setup
 __Android Studio__ : Version 4.0 (from May 28, 2020)
+
 __Android SDK Version__ : *SetupAndroid.bat*
+
 __Android SDK Platform Tools__ : Latest
+
 __Andorid Command Line Tools__ : 8.0 (9.0 for UE 5.2+)
+
 __NDK Version__ : *UE 4.25+* r21b; *UE 5.0* r21e; *UE 5.1+* r25b
+
 __AGDE__ : *UE 5.1* v22.2.69+; *UE 5.2* v23.1.82+; (JDK 17)
 
+
 __SDK API Level__ : Latest
+
 __NDK API Level__ : android-21
+
 __Android Target SDK Version__ : 29
 
 ## SetupAndroid.bat troubleshooting
