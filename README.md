@@ -33,6 +33,7 @@
     - There is a one frame delay.
     - More work for the GPU.
 - Use *Android Studio* to solve __gradle__ errors. You can re-package the project without having to build and cook everything and even clean and package again.
+- *Unreal Engine* __Fix up Redirectors in Folder__ function does not recurse.
 
 ## Debugging with AGDE
 This is still a mistery to me. I was not able to make it work just yet.
