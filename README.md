@@ -34,6 +34,7 @@
     - More work for the GPU.
 - Use *Android Studio* to solve __gradle__ errors. You can re-package the project without having to build and cook everything and even clean and package again.
 - *Unreal Engine* __Fix up Redirectors in Folder__ function does not recurse.
+- Seems like *OnlineSubsystems* are prone to malunction on Android when the __LoadingPhase__ is set to *PostConfigInit* instad of *Default*. It works well for every other platform.
 
 ## Debugging with AGDE
 This is still a mistery to me. I was not able to make it work just yet.
