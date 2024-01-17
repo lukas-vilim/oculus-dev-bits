@@ -36,6 +36,7 @@
 - *Unreal Engine* __Fix up Redirectors in Folder__ function does not recurse.
 - Seems like *OnlineSubsystems* are prone to malunction on Android when the __LoadingPhase__ is set to *PostConfigInit* instad of *Default*. It works well for every other platform.
 - The Task system may occasionally use the Game Tread.
+- To run the Shipping builds from Visual Studio one needs to specify the *Base* folder otherwise the engine does not find the packaged data. `-basedir="$(SolutionDir)/Saved/StagedBuilds/WindowsNoEditor/<ProjectName>/Binaries/Win64/`
 
 ## Debugging with AGDE
 This is still a mistery to me. I was not able to make it work just yet.
